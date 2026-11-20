@@ -1,0 +1,81 @@
+@import '@fontsource-variable/atkinson-hyperlegible-next/index.css';
+@import '@fontsource-variable/noto-sans-sinhala/index.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Design tokens (RGB triplets so Tailwind can apply alpha) ---------- */
+:root {
+  --ink: 15 34 54;          /* #0F2236  body text */
+  --muted: 82 99 120;       /* #526378  secondary text, 5.9:1 on white */
+  --line: 218 226 236;      /* #DAE2EC  hairlines */
+  --mist: 244 247 251;      /* #F4F7FB  app background */
+  --surface: 255 255 255;
+  --navy: 27 58 92;         /* #1B3A5C  primary / trust */
+  --navy-700: 19 42 68;     /* #132A44 */
+  --navy-50: 234 240 247;
+  --teal: 46 139 139;       /* #2E8B8B  thread + large accents only */
+  --teal-deep: 25 104 104;  /* #196868  teal text/buttons, 6.2:1 on white */
+  --teal-50: 228 243 242;
+  --sos: 217 48 37;         /* #D93025  emergency calls only */
+  --sos-50: 253 236 234;
+  --ok: 46 125 91;          /* #2E7D5B  confirmed / protected */
+  --ok-50: 229 243 236;
+  --warn: 150 88 0;         /* #965800  non-emergency warnings, AA on white */
+  --warn-50: 255 243 222;
+  color-scheme: light;
+}
+
+/* High-contrast mode: darker lines and text, stronger accents */
+html.hc {
+  --ink: 0 0 0;
+  --muted: 30 41 56;
+  --line: 90 105 125;
+  --mist: 255 255 255;
+  --navy: 10 32 58;
+  --teal: 0 92 92;
+  --teal-deep: 0 74 74;
+  --warn: 110 62 0;
+}
+html.hc .hc-border { border-width: 2px; }
+
+html, body { -webkit-text-size-adjust: 100%; overflow: clip; height: 100%; }
+body {
+  @apply bg-mist text-ink font-sans antialiased;
+  font-feature-settings: 'ss01' 0;
+}
+
+/* Sinhala needs extra vertical room for stacked vowel signs */
+:lang(si) { line-height: 1.7; }
+:lang(si) h1, :lang(si) h2, :lang(si) h3 { line-height: 1.45; }
+:lang(si) .tight { line-height: 1.4; }
+
+/* Visible keyboard focus everywhere */
+:focus-visible { outline: 3px solid rgb(var(--teal)); outline-offset: 2px; border-radius: 10px; }
+button, a, [role='button'] { -webkit-tap-highlight-color: transparent; }
+
+/* Respect reduced motion (OS setting or in-app toggle) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+html.reduce-motion *, html.reduce-motion *::before, html.reduce-motion *::after {
+  animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+.thin-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.thin-scroll::-webkit-scrollbar-thumb { background: rgb(var(--line)); border-radius: 8px; }
+
+/* Text highlight used in privacy review */
+mark.flag { background: rgb(var(--warn-50)); color: inherit; border-bottom: 2px solid rgb(var(--warn)); padding: 0 2px; border-radius: 3px; }
+mark.flag-person { background: rgb(var(--navy-50)); border-bottom-color: rgb(var(--navy)); }
+mark.flag-done { background: rgb(var(--ok-50)); border-bottom-color: rgb(var(--ok)); }
+mark.kw { background: rgb(var(--teal-50)); color: inherit; border-radius: 3px; padding: 0 2px; }
+
+/* Film mode: tap indicator for the showcase video */
+.tap-dot { position: fixed; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 9999px; pointer-events: none; z-index: 9999;
+  background: rgb(255 255 255 / .35); border: 2px solid rgb(255 255 255 / .9); box-shadow: 0 0 0 1px rgb(15 34 54 / .35), 0 4px 16px rgb(15 34 54 / .3);
+  animation: tap .55s ease-out forwards; }
+@keyframes tap { from { transform: scale(.4); opacity: 1; } to { transform: scale(1.25); opacity: 0; } }
